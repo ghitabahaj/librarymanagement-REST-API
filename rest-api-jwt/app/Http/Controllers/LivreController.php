@@ -63,7 +63,7 @@ class LivreController extends Controller
         $livre->save();
         try {
 
-            $livre->genres()->attach($genres);
+         $livre->genres()->attach($genres);
     
 
         } catch (\Exception $e) {

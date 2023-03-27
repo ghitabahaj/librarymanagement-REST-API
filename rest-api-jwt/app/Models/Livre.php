@@ -18,7 +18,7 @@ class Livre extends Model
         'statut'
     ];
 
-    public function genre()
+    public function genres()
     {
         return $this->belongsToMany(Genre::class,'genrees_livre', 'livre_id', 'genre_id');
     }
