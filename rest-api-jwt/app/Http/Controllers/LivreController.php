@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Livre;
 use App\Http\Requests\StoreLivreRequest;
 use App\Http\Requests\UpdateLivreRequest;
+use App\Models\Genre;
+
 
 class LivreController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +23,12 @@ class LivreController extends Controller
      */
     public function index()
     {
-        //
+        $livres = Livre::with('genres')->get();
+
+        return response()->json([
+            'status' => 'success',
+            'livres' => $livres
+        ]);
     }
 
     /**
@@ -36,7 +49,33 @@ class LivreController extends Controller
      */
     public function store(StoreLivreRequest $request)
     {
-        //
+        
+        $genres = $request->input('genres', []); // get the t=genres from the request;
+        $livre = new livre();
+        $livre->title =$request->title;
+        $livre->collection= $request->collection;
+        $livre->isbn =$request->isbn;
+        $livre->page_numbers =$request->page_numbers;
+        $livre->released_date =$request->released_date;
+        $livre->emplacement =$request->emplacement;
+        $livre->statut =$request->statut;
+        $livre->save();
+        try {
+
+            $livre->genres()->attach($genres);
+    
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => "Failed to attache genres to livre: " . $e->getMessage()
+            ], 500);
+        }
+        return response()->json([
+            'status' => true,
+            'message' => "Livre created successfully!",
+            'Livre' => $livre
+        ], 201);
     }
 
     /**
@@ -47,7 +86,12 @@ class LivreController extends Controller
      */
     public function show(Livre $livre)
     {
-        //
+        $livre->find($livre->id);
+
+        if (!$livre) {
+            return response()->json(['message' => 'Livre not found'], 404);
+        }
+        return response()->json($livre, 200);
     }
 
     /**
@@ -68,9 +112,25 @@ class LivreController extends Controller
      * @param  \App\Models\Livre  $livre
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateLivreRequest $request, Livre $livre)
+    public function update(UpdateLivreRequest $request, $id)
     {
-        //
+        $livre = Livre::find($id);
+        if (!$livre) {
+            return response()->json(['message' => 'Livre not found'], 404);
+        }
+        $genres = $request->input('genres', []);
+        try {
+            $livre->update($request->all());
+            $livre->genres()->sync($genres);
+        } catch (\Exception) {
+            return response()->json(['message' => 'Failed to update livre'], 405);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => "Livre Updated successfully!",
+            'Livre' => $livre
+        ], 200);
     }
 
     /**
@@ -79,8 +139,23 @@ class LivreController extends Controller
      * @param  \App\Models\Livre  $livre
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Livre $livre)
+    public function destroy($id)
     {
-        //
+        $livre = Livre::find($id);
+        $livre->genres()->detach();
+        $livre->delete();
+
+        if (!$livre) {
+            return response()->json([
+                'message' => 'Livre not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Livre deleted successfully'
+        ], 200);
     }
+    
 }
+
