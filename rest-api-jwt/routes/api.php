@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\LivreController;
 
@@ -25,3 +26,5 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::resource('Livre',LivreController::class);
 Route::resource('Genre',GenreController::class);
+Route::resource('User',UserController::class);
+
