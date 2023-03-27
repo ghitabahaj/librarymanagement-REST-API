@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Genre;
 use App\Models\Livre;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreLivreRequest;
 use App\Http\Requests\UpdateLivreRequest;
-use App\Models\Genre;
 
 
 class LivreController extends Controller
@@ -44,10 +45,10 @@ class LivreController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreLivreRequest  $request
+     
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreLivreRequest $request)
+    public function store(Request $request)
     {
         
         $genres = $request->input('genres', []); // get the genres from the request;

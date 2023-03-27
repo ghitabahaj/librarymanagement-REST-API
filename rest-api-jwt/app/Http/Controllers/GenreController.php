@@ -1,18 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\Models\Genre;
 use App\Http\Requests\StoreGenreRequest;
 use App\Http\Requests\UpdateGenreRequest;
 
 class GenreController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
 
     /**
      * Display a listing of the resource.
@@ -38,10 +33,10 @@ class GenreController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreGenreRequest  $request
+     
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreGenreRequest $request)
+    public function store(Request $request)
     {
         $data = Genre::create($request->all());
         return response()->json(['created'=>'genre created successfuly','Genre'=>$data],201);
@@ -75,11 +70,11 @@ class GenreController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateGenreRequest  $request
+
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGenreRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $genre_update = Genre::find($id);
         $genre_update->update($request->all());
