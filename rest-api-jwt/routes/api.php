@@ -23,4 +23,4 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::resource('Livre',LivreController::class);
-Route::resource('Livre',GenreController::class);
+Route::resource('Genre',GenreController::class);
