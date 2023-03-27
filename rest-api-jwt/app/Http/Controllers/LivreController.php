@@ -109,11 +109,10 @@ class LivreController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateLivreRequest  $request
      * @param  \App\Models\Livre  $livre
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateLivreRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $livre = Livre::find($id);
         if (!$livre) {
