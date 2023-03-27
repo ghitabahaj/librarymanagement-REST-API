@@ -17,7 +17,6 @@ return new class extends Migration
         $table->id();
         $table->unsignedBiginteger('livre_id')->unsigned();
         $table->unsignedBiginteger('genre_id')->unsigned();
-        
         $table->foreign('livre_id')->references('id')
              ->on('livres')->onDelete('cascade');
         $table->foreign('genre_id')->references('id')
