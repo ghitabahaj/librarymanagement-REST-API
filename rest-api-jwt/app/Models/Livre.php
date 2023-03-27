@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Livre extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'genre_id',
         'collection',
@@ -21,6 +21,6 @@ class Livre extends Model
 
     public function genre()
     {
-        return $this->belongsTo(Genre::class);
+        return $this->HasMany(Genre::class);
     }
 }

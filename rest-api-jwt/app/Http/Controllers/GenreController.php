@@ -3,66 +3,84 @@
 namespace App\Http\Controllers;
 
 use App\Models\Genre;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreGenreRequest;
+use App\Http\Requests\UpdateGenreRequest;
 
 class GenreController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         //
-        $genres=Genre::all();
-        return response()->json($genres);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreGenreRequest  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreGenreRequest $request)
     {
         //
-        $genre=new Genre;
-        $genre->name=$request->input('name');
-        $genre->save();
-        return response()->json($genre);
     }
 
     /**
      * Display the specified resource.
+     *
+     * @param  \App\Models\Genre  $genre
+     * @return \Illuminate\Http\Response
      */
-    public function show(string $id)
+    public function show(Genre $genre)
     {
         //
-        $genre= Genre::find($id);
-        return response()->json($genre);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Genre  $genre
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Genre $genre)
+    {
+        //
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateGenreRequest  $request
+     * @param  \App\Models\Genre  $genre
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateGenreRequest $request, Genre $genre)
     {
         //
-        $genre = Genre::find($id);
-        $genre->name= $request->input('name');
-        $genre->save();
-        return response()->json($genre);
     }
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Genre  $genre
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(string $id)
+    public function destroy(Genre $genre)
     {
         //
-        $genre =  Genre::find($id);
-        $genre->delete();
-        return response()->json(['message','Genre Deleted']);
     }
 }
