@@ -15,7 +15,8 @@ class GenreController extends Controller
      */
     public function index()
     {
-        //
+        $genre = Genre::all();
+        return response()->json(['response'=>'success','genres'=>$genre]);
     }
 
     /**
@@ -36,7 +37,8 @@ class GenreController extends Controller
      */
     public function store(StoreGenreRequest $request)
     {
-        //
+        $data = Genre::create($request->all());
+        return response()->json(['created'=>'genre created successfuly','Genre'=>$data],201);
     }
 
     /**
@@ -45,9 +47,12 @@ class GenreController extends Controller
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function show(Genre $genre)
+    public function show($id)
     {
-        //
+        if(!Genre::find($id)){
+            return response()->json(['response'=>'not found'],404);
+        }
+        return Genre::find($id);
     }
 
     /**
@@ -68,9 +73,11 @@ class GenreController extends Controller
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGenreRequest $request, Genre $genre)
+    public function update(UpdateGenreRequest $request, $id)
     {
-        //
+        $genre_update = Genre::find($id);
+        $genre_update->update($request->all());
+        return $genre_update;
     }
 
     /**
@@ -79,8 +86,8 @@ class GenreController extends Controller
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Genre $genre)
+    public function destroy( $id)
     {
-        //
+        return Genre::destroy($id);
     }
 }

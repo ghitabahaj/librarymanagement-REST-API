@@ -50,7 +50,7 @@ class LivreController extends Controller
     public function store(StoreLivreRequest $request)
     {
         
-        $genres = $request->input('genres', []); // get the t=genres from the request;
+        $genres = $request->input('genres', []); // get the genres from the request;
         $livre = new livre();
         $livre->title =$request->title;
         $livre->collection= $request->collection;
