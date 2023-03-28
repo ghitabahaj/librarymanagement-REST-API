@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -75,6 +76,8 @@ class AuthController extends Controller
             $user->email = request('email');
             $user->password =Hash::make(request('password'));
             $user->save();
+            $role=Role::findByName('user');
+            $user->assignRole($role);
         }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()]);
         }
