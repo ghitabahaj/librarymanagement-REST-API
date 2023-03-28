@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Permission\Models\Permission;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+         Schema::defaultStringLength(191);
+         $permissions=Permission::all();
+         $admin=Role::findByName('admin');
+         $admin->syncPermissions($permissions);
+         app(PermissionRegistrar::class)->registerPermissions();
     }
 }

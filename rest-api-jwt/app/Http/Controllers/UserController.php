@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+   
+
     public function UpdatePassword(Request $request){
         $current_user=auth()->user();
         if(Hash::check($request->old_password,$current_user->password)){
