@@ -42,7 +42,6 @@ return response()->json([
         'role_id' => 'required|array',
         'role_id.*' => 'exists:roles,id',
     ]);
-    $arr=[];
     foreach ($request->role_id as $id) {
         $role=Role::findById($id);
         $user->removeRole($role);

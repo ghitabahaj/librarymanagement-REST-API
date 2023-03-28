@@ -29,9 +29,9 @@ Route::controller(AuthController::class)->group(function () {
 Route::resource('Livre',LivreController::class);
 Route::resource('Genre',GenreController::class);
 Route::resource('User',UserController::class);
-Route::post('assignRole/{user_id}',[assignRole::class , 'asignRole'])->middleware(['can:assign role']);
-Route::post('asignPerToRole/{role_id}',[assignRole::class , 'asignPerToRole']);
-Route::delete('removeRole/{user_id}',[assignRole::class , 'removeRole']);
+Route::post('assignRole/{user_id}',[assignRole::class , 'asignRole'])->middleware(['permission:assign role']);
+Route::post('asignPerToRole/{role_id}',[assignRole::class , 'asignPerToRole'])->middleware(['permission:assign role']);
+Route::delete('removeRole/{user_id}',[assignRole::class , 'removeRole'])->middleware(['permission:assign role']);
 
 
 
